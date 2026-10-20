@@ -1,0 +1,834 @@
+/* =========================================================
+   ESTILOS DE LA PÁGINA DE CUMPLEAÑOS 🌻
+   ========================================================= */
+
+/* ---------- 1) Colores y tipografías (cámbialos aquí) ---------- */
+:root {
+  --verde-bosque: #1f2a1f;
+  --amarillo: #e0ba50;
+  --amarillo-claro: #f6d77a;
+  --crema: #f8eede;
+  --marron: #75553a;
+  --marfil: #fff9f0;
+
+  --letra-titulo: 'Playfair Display', Georgia, serif;
+  --letra-texto: 'Poppins', Arial, sans-serif;
+  --letra-firma: 'Great Vibes', cursive;
+}
+
+/* ---------- 2) Ajustes generales ---------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--letra-texto);
+  color: var(--verde-bosque);
+  background: var(--marfil);
+  overflow-x: hidden;
+}
+
+img { display: block; max-width: 100%; }
+
+section { position: relative; padding: 90px 20px; }
+
+.titulo-seccion {
+  font-family: var(--letra-titulo);
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  text-align: center;
+  color: var(--verde-bosque);
+  margin-bottom: 10px;
+}
+.titulo-seccion.claro { color: var(--amarillo-claro); position: relative; z-index: 2; }
+
+.subtitulo {
+  text-align: center;
+  color: var(--marron);
+  margin-bottom: 50px;
+  font-weight: 300;
+}
+
+/* Botón principal (dorado) */
+.boton {
+  font-family: var(--letra-texto);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--verde-bosque);
+  background: linear-gradient(135deg, var(--amarillo-claro), var(--amarillo));
+  border: none;
+  border-radius: 50px;
+  padding: 15px 36px;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(224, 186, 80, .45);
+  transition: transform .3s, box-shadow .3s;
+}
+.boton:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 12px 35px rgba(224, 186, 80, .65); }
+
+.boton-pequeno {
+  font-family: var(--letra-texto);
+  background: none;
+  border: 1px solid var(--marron);
+  color: var(--marron);
+  border-radius: 30px;
+  padding: 8px 20px;
+  cursor: pointer;
+  margin-top: 20px;
+  display: none;            /* JS lo muestra cuando hace falta */
+}
+.boton-pequeno.claro { border-color: var(--amarillo); color: var(--amarillo-claro); }
+
+/* Animación de aparición al hacer scroll (JS agrega la clase .visible) */
+.aparecer {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity .9s ease, transform .9s ease;
+}
+.aparecer.visible { opacity: 1; transform: translateY(0); }
+
+/* Botón de música */
+.btn-musica {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 100;
+  width: 50px; height: 50px;
+  border-radius: 50%;
+  border: 2px solid var(--amarillo);
+  background: rgba(31, 42, 31, .85);
+  color: var(--amarillo-claro);
+  font-size: 1.4rem;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,.3);
+}
+.btn-musica.sonando { animation: latido 1.2s infinite; }
+@keyframes latido { 50% { transform: scale(1.12); } }
+
+.aviso {
+  position: fixed;
+  left: 50%; bottom: 80px;
+  transform: translateX(-50%);
+  background: var(--verde-bosque);
+  color: var(--crema);
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: .9rem;
+  z-index: 101;
+  max-width: 90vw;
+  text-align: center;
+}
+
+/* =========================================================
+   1. INICIO
+   ========================================================= */
+.inicio {
+  height: 100vh;
+  min-height: 560px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0 20px;
+  background: var(--verde-bosque);
+}
+
+/* Foto de fondo con movimiento suave (zoom lento de ida y vuelta) */
+.inicio-fondo {
+  position: absolute;
+  inset: -4%;
+  background: url('../img/fondo-girasoles.jpg') center 65% / cover no-repeat;
+  animation: mecerse 22s ease-in-out infinite alternate;
+}
+@keyframes mecerse {
+  from { transform: scale(1) translateX(0); }
+  to   { transform: scale(1.1) translateX(-2%); }
+}
+
+.inicio-velo {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(31,42,31,.15), rgba(31,42,31,.65));
+}
+
+/* Lluvia de girasoles */
+.lluvia { position: absolute; inset: 0; pointer-events: none; z-index: 2; overflow: hidden; }
+.flor-cae {
+  position: absolute;
+  top: -80px;
+  animation-name: caer;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  filter: drop-shadow(0 3px 4px rgba(0,0,0,.3));
+}
+@keyframes caer {
+  from { transform: translate(0, 0) rotate(0deg); }
+  to   { transform: translate(var(--deriva), 115vh) rotate(var(--giro)); }
+}
+
+.inicio-contenido { position: relative; z-index: 3; text-align: center; }
+
+.inicio-pre {
+  color: var(--crema);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-size: clamp(.7rem, 2.5vw, .9rem);
+  margin-bottom: 15px;
+  opacity: 0;
+  animation: subir 1s .4s forwards;
+}
+
+/* Título con entrada elegante + brillo dorado que recorre las letras */
+.titulo-principal {
+  font-family: var(--letra-titulo);
+  font-size: clamp(2.6rem, 9vw, 6rem);
+  line-height: 1.1;
+  margin-bottom: 35px;
+  background: linear-gradient(110deg, #fff4d1 20%, #ffe28a 40%, #ffffff 50%, #ffe28a 60%, #fff4d1 80%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 18px rgba(224,186,80,.6));
+  opacity: 0;
+  animation: entradaTitulo 2s .8s forwards, brillo 4s 2.8s linear infinite;
+}
+.titulo-principal span { font-style: italic; display: inline-block; }
+
+@keyframes entradaTitulo {
+  from { opacity: 0; letter-spacing: 12px; transform: scale(.9); filter: blur(10px); }
+  to   { opacity: 1; letter-spacing: 0; transform: scale(1); filter: drop-shadow(0 0 18px rgba(224,186,80,.6)); }
+}
+@keyframes brillo { from { background-position: 100% 0; } to { background-position: -150% 0; } }
+@keyframes subir { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+
+#btnRegalo { opacity: 0; animation: subir 1s 2.4s forwards; }
+
+/* Partículas doradas alrededor del título */
+.chispas { position: absolute; inset: -40px -20px; pointer-events: none; }
+.chispa {
+  position: absolute;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #fff3b0;
+  box-shadow: 0 0 8px 3px rgba(255, 215, 100, .8);
+  animation: titilar 3s ease-in-out infinite;
+  opacity: 0;
+}
+@keyframes titilar {
+  0%, 100% { opacity: 0; transform: scale(.3) translateY(0); }
+  50%      { opacity: 1; transform: scale(1) translateY(-12px); }
+}
+
+.flecha-abajo {
+  position: absolute;
+  bottom: 20px; left: 50%;
+  transform: translateX(-50%);
+  color: var(--crema);
+  font-size: 2rem;
+  z-index: 3;
+  animation: rebote 2s infinite;
+}
+@keyframes rebote { 50% { transform: translate(-50%, 8px); } }
+
+/* =========================================================
+   2. MEMORIAS
+   ========================================================= */
+.memorias {
+  background-color: var(--crema);
+  /* pequeños girasoles decorativos dibujados con SVG */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cg opacity='.18' transform='translate(30 30)'%3E%3Cg fill='%23e0ba50'%3E%3Cellipse cx='0' cy='-11' rx='4' ry='8'/%3E%3Cellipse cx='0' cy='11' rx='4' ry='8'/%3E%3Cellipse cx='-11' cy='0' rx='8' ry='4'/%3E%3Cellipse cx='11' cy='0' rx='8' ry='4'/%3E%3Cellipse cx='8' cy='-8' rx='4' ry='8' transform='rotate(45 8 -8)'/%3E%3Cellipse cx='-8' cy='8' rx='4' ry='8' transform='rotate(45 -8 8)'/%3E%3Cellipse cx='8' cy='8' rx='4' ry='8' transform='rotate(-45 8 8)'/%3E%3Cellipse cx='-8' cy='-8' rx='4' ry='8' transform='rotate(-45 -8 -8)'/%3E%3C/g%3E%3Ccircle r='6' fill='%2375553a'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.galeria {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 45px 35px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.polaroid {
+  background: #fff;
+  padding: 14px 14px 18px;
+  box-shadow: 0 6px 18px rgba(117, 85, 58, .2);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform .4s, box-shadow .4s, opacity .9s;
+}
+/* cada foto un poquito inclinada, como si estuvieran sobre la mesa */
+.polaroid:nth-child(odd).visible  { transform: rotate(-2.5deg); }
+.polaroid:nth-child(even).visible { transform: rotate(2deg); }
+
+.polaroid:hover {
+  transform: translateY(-10px) rotate(0deg) scale(1.03) !important;
+  box-shadow: 0 18px 35px rgba(117, 85, 58, .3), 0 0 25px rgba(224, 186, 80, .55);
+}
+.polaroid img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: center 20%; }
+.polaroid p {
+  font-family: var(--letra-firma);
+  font-size: 1.6rem;
+  text-align: center;
+  color: var(--marron);
+  margin-top: 10px;
+}
+
+/* Visor (foto en grande) */
+.visor {
+  position: fixed;
+  inset: 0;
+  background: rgba(31, 42, 31, .92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .4s;
+}
+.visor.abierto { opacity: 1; pointer-events: auto; }
+.visor-caja {
+  background: #fff;
+  padding: 16px 16px 24px;
+  max-width: 560px;
+  width: 100%;
+  border-radius: 6px;
+  transform: scale(.85);
+  transition: transform .4s;
+}
+.visor.abierto .visor-caja { transform: scale(1); }
+.visor-caja img { width: 100%; max-height: 65vh; object-fit: contain; background: var(--crema); }
+.visor-caja p {
+  font-family: var(--letra-titulo);
+  font-style: italic;
+  text-align: center;
+  margin-top: 14px;
+  font-size: 1.15rem;
+  color: var(--marron);
+}
+.visor-cerrar {
+  position: absolute;
+  top: 18px; right: 22px;
+  background: none; border: none;
+  color: var(--crema);
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+/* =========================================================
+   3. HISTORIA (línea del tiempo)
+   ========================================================= */
+.historia { background: var(--marfil); }
+
+.linea-tiempo {
+  position: relative;
+  max-width: 950px;
+  margin: 0 auto;
+}
+/* la línea vertical */
+.linea-tiempo::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(var(--amarillo), var(--marron));
+  transform: translateX(-50%);
+}
+
+.momento {
+  position: relative;
+  width: 50%;
+  padding: 0 45px 60px;
+}
+.momento:nth-child(odd)  { left: 0; }
+.momento:nth-child(even) { left: 50%; }
+/* entran desde los lados */
+.momento:nth-child(odd).aparecer  { transform: translateX(-50px); }
+.momento:nth-child(even).aparecer { transform: translateX(50px); }
+.momento.aparecer.visible { transform: none; }
+
+.momento-punto {
+  position: absolute;
+  top: 10px;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--crema);
+  border: 3px solid var(--amarillo);
+  display: grid;
+  place-items: center;
+  font-size: 1.2rem;
+  z-index: 1;
+}
+.momento:nth-child(odd)  .momento-punto { right: -22px; }
+.momento:nth-child(even) .momento-punto { left: -22px; }
+
+.momento-tarjeta {
+  background: #fff;
+  padding: 14px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(117, 85, 58, .15);
+}
+/* la foto se ve COMPLETA, sin recortar */
+.momento-tarjeta img {
+  width: 100%;
+  height: auto;
+  max-height: 460px;
+  object-fit: contain;
+  background: var(--crema);
+  border-radius: 8px;
+}
+.momento-anio {
+  display: inline-block;
+  margin: 12px 0 6px;
+  background: var(--amarillo);
+  color: var(--verde-bosque);
+  font-weight: 500;
+  font-size: .85rem;
+  padding: 3px 12px;
+  border-radius: 20px;
+}
+.momento-tarjeta p { font-size: .95rem; color: #4a3d30; line-height: 1.6; }
+
+.hoy {
+  max-width: 480px;
+  margin: 20px auto 0;
+  text-align: center;
+}
+.hoy img {
+  width: 230px; height: 230px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 0 auto 18px;
+  border: 6px solid #fff;
+  box-shadow: 0 0 0 4px var(--amarillo), 0 15px 35px rgba(224, 186, 80, .45);
+}
+.hoy h3 { font-family: var(--letra-titulo); font-size: 2rem; margin-bottom: 10px; }
+.hoy p { font-family: var(--letra-titulo); font-style: italic; font-size: 1.15rem; line-height: 1.7; color: var(--marron); }
+
+/* =========================================================
+   4. LA CARTA (sobre animado)
+   ========================================================= */
+.carta-seccion {
+  background: linear-gradient(var(--crema), #efe0c4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.sobre {
+  position: relative;
+  width: min(420px, 88vw);
+  aspect-ratio: 3 / 2;
+  margin: 50px auto 25px;
+  perspective: 1200px;
+  transition: width .6s, aspect-ratio .6s, margin .6s;
+}
+.sobre-atras, .sobre-frente, .sobre-solapa {
+  position: absolute;
+  inset: 0;
+  transition: opacity .6s;
+}
+.sobre-atras { background: #e9dcc0; border-radius: 8px; z-index: 1; box-shadow: 0 15px 35px rgba(117,85,58,.3); }
+
+/* bolsillo delantero: dos triángulos laterales y uno abajo */
+.sobre-frente {
+  z-index: 3;
+  border-radius: 8px;
+  background: #f3e8d0;
+  clip-path: polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%);
+  pointer-events: none;
+}
+.sobre-frente::after {      /* girasoles pintados en las esquinas */
+  content: '🌻';
+  position: absolute;
+  right: 12px; bottom: 6px;
+  font-size: 2.2rem;
+}
+.sobre-frente::before {
+  content: '🌻';
+  position: absolute;
+  left: 12px; bottom: 6px;
+  font-size: 1.6rem;
+}
+
+/* solapa de arriba (triángulo que se abre girando) */
+.sobre-solapa {
+  z-index: 4;
+  height: 62%;
+  background: #f6ecd6;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top center;
+  transition: transform 1s ease, z-index 0s .5s;
+  filter: drop-shadow(0 3px 3px rgba(0,0,0,.15));
+}
+
+/* sello de cera dorado */
+.sello {
+  position: absolute;
+  left: 50%; top: 62%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  width: 62px; height: 62px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f8dc84, #c99a2e 60%, #9c7420);
+  box-shadow: 0 3px 8px rgba(0,0,0,.35), inset 0 0 0 4px rgba(255,255,255,.25);
+  display: grid;
+  place-items: center;
+  font-family: var(--letra-titulo);
+  font-size: 1.6rem;
+  color: #7a5916;
+  transition: opacity .5s, transform .5s;
+}
+
+/* la hoja de la carta, guardada dentro del sobre */
+.hoja {
+  position: absolute;
+  left: 6%; right: 6%;
+  top: 6%; bottom: 6%;
+  z-index: 2;
+  background: var(--marfil);
+  border-radius: 6px;
+  padding: 30px 26px;
+  text-align: left;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,.12);
+  transition: transform 1.2s ease;
+}
+.hoja h3 { font-family: var(--letra-firma); font-size: 2.2rem; color: var(--marron); margin-bottom: 15px; font-weight: 400; }
+
+/* PASO 1: se abre la solapa y se va el sello */
+.sobre.abierto .sobre-solapa { transform: rotateX(180deg); z-index: 0; }
+.sobre.abierto .sello { opacity: 0; transform: translate(-50%, -50%) scale(.5); }
+
+/* PASO 2: la hoja sale del sobre */
+.sobre.fuera .hoja { transform: translateY(-70%); }
+
+/* PASO 3: el sobre desaparece y la carta se despliega completa */
+.sobre.leyendo { width: min(680px, 94vw); aspect-ratio: auto; margin-top: 30px; }
+.sobre.leyendo .sobre-atras,
+.sobre.leyendo .sobre-frente,
+.sobre.leyendo .sobre-solapa,
+.sobre.leyendo .sello { opacity: 0; pointer-events: none; }
+.sobre.leyendo .hoja {
+  position: relative;
+  inset: auto;
+  transform: none;
+  overflow: visible;
+  padding: 45px clamp(22px, 6vw, 55px);
+  box-shadow: 0 20px 50px rgba(117,85,58,.25);
+  background:
+    repeating-linear-gradient(transparent 0 33px, rgba(224,186,80,.18) 33px 34px),
+    var(--marfil);
+  animation: desplegar 1s ease;
+}
+@keyframes desplegar {
+  from { transform: scaleY(.3); opacity: .4; transform-origin: top; }
+  to   { transform: scaleY(1); opacity: 1; transform-origin: top; }
+}
+
+.texto-carta p {
+  font-family: var(--letra-titulo);
+  font-size: clamp(1rem, 2.6vw, 1.15rem);
+  line-height: 34px;
+  margin-bottom: 16px;
+  color: #3d3227;
+}
+/* cursor que parpadea mientras se escribe */
+.cursor::after { content: '|'; color: var(--amarillo); animation: parpadeo .8s infinite; }
+@keyframes parpadeo { 50% { opacity: 0; } }
+
+.firma { text-align: right; margin-top: 25px; opacity: 0; transition: opacity 1.2s; }
+.firma.visible { opacity: 1; }
+.firma p { font-family: var(--letra-titulo); font-style: italic; color: var(--marron); }
+.firma .firma-nombre { font-family: var(--letra-firma); font-size: 2.4rem; font-style: normal; color: var(--verde-bosque); }
+.mini-girasol { font-size: 2.6rem; display: inline-block; animation: girar 6s linear infinite; margin-top: 6px; }
+@keyframes girar { to { transform: rotate(360deg); } }
+
+.carta-pregunta { font-family: var(--letra-titulo); font-size: 1.3rem; margin-bottom: 18px; color: var(--verde-bosque); }
+.oculto { display: none !important; }
+
+/* =========================================================
+   5. EL GIRASOL QUE CRECE
+   ========================================================= */
+.final {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at 50% 30%, #3d4a2a 0%, var(--verde-bosque) 60%, #141b14 100%);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: var(--crema);
+}
+
+.girasol { width: min(320px, 75vw); height: auto; margin-top: 20px; position: relative; z-index: 2; overflow: visible; }
+
+.tierra { fill: #4a3524; }
+.semilla { fill: #6b4a2e; opacity: 0; }
+.tallo { fill: none; stroke: #4f7a2f; stroke-width: 9; stroke-linecap: round; stroke-dasharray: 300; stroke-dashoffset: 300; }
+.hojita { fill: #5d8f37; transform: scale(0); transform-box: fill-box; }
+.hojita-izq { transform-origin: right center; }
+.hojita-der { transform-origin: left center; }
+.petalo { fill: var(--amarillo); stroke: #c99a2e; stroke-width: 1; transform: scale(0); transform-box: fill-box; transform-origin: center bottom; }
+.centro { fill: #5a3b22; transform: scale(0); transform-box: fill-box; transform-origin: center; }
+.centro-brillo { fill: #75553a; transform: scale(0); transform-box: fill-box; transform-origin: center; }
+
+/* cuando JS agrega .crecer a la sección, empieza la magia */
+.crecer .semilla { animation: aparecerSemilla 1s forwards, desaparecer .5s 2s forwards; }
+.crecer .tallo   { animation: crecerTallo 2.5s 1s ease-out forwards; }
+.crecer .hojita-izq { animation: abrir .8s 2.6s ease-out forwards; }
+.crecer .hojita-der { animation: abrir .8s 3.1s ease-out forwards; }
+.crecer .centro, .crecer .centro-brillo { animation: abrir .8s 3.6s ease-out forwards; }
+.crecer .petalo  { animation: abrir .5s ease-out forwards; } /* el retraso de cada pétalo lo pone JS */
+
+.florecido .girasol { animation: balanceo 5s ease-in-out infinite; transform-origin: 50% 95%; }
+
+@keyframes aparecerSemilla { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: none; } }
+@keyframes desaparecer { to { opacity: 0; } }
+@keyframes crecerTallo { to { stroke-dashoffset: 0; } }
+@keyframes abrir { to { transform: scale(1); } }
+@keyframes balanceo { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+
+/* Frases que caen */
+.frases { position: absolute; inset: 170px 0 0 0; pointer-events: none; z-index: 1; }
+.frase {
+  position: absolute;
+  top: -60px;
+  max-width: min(320px, 80vw);
+  font-family: var(--letra-titulo);
+  font-style: italic;
+  font-size: clamp(.95rem, 2.5vw, 1.15rem);
+  color: var(--amarillo-claro);
+  text-shadow: 0 0 12px rgba(224,186,80,.5);
+  animation: flotar 14s linear forwards;
+}
+@keyframes flotar {
+  0%   { transform: translateY(0); opacity: 0; }
+  10%  { opacity: 1; }
+  75%  { opacity: .9; }
+  100% { transform: translateY(85vh) translateX(var(--deriva)); opacity: 0; }
+}
+
+.mensaje-final {
+  position: relative;
+  z-index: 2;
+  font-family: var(--letra-titulo);
+  font-size: clamp(1.6rem, 5vw, 2.6rem);
+  color: #fff4d1;
+  text-shadow: 0 0 25px rgba(224,186,80,.8);
+  margin-top: 25px;
+  opacity: 0;
+  transform: scale(.9);
+  transition: opacity 2s, transform 2s;
+}
+.mensaje-final.visible { opacity: 1; transform: scale(1); }
+
+/* =========================================================
+   CELULAR (pantallas de menos de 700px)
+   ========================================================= */
+@media (max-width: 700px) {
+  section { padding: 70px 16px; }
+
+  .galeria { grid-template-columns: repeat(2, 1fr); gap: 22px 14px; }
+  .polaroid { padding: 8px 8px 10px; }
+  .polaroid p { font-size: 1.2rem; }
+
+  /* línea del tiempo a la izquierda */
+  .linea-tiempo::before { left: 20px; }
+  .momento, .momento:nth-child(even) { width: 100%; left: 0; padding: 0 0 45px 55px; }
+  .momento:nth-child(odd) .momento-punto,
+  .momento:nth-child(even) .momento-punto { left: -2px; right: auto; }
+  .momento:nth-child(odd).aparecer,
+  .momento:nth-child(even).aparecer { transform: translateY(40px); }
+  .momento.aparecer.visible { transform: none; }
+
+  .hoja { padding: 18px 16px; }
+  .frase { font-size: .9rem; opacity: .8; }
+  .hoja h3 { font-size: 1.7rem; }
+  .sello { width: 50px; height: 50px; font-size: 1.3rem; }
+}
+
+/* Si la persona prefiere menos movimiento, calmamos las animaciones */
+@media (prefers-reduced-motion: reduce) {
+  .inicio-fondo { animation: none; }
+}
+/* =========================================================
+   6. 
+COLLAGE FINAL: polaroids colgadas en cuerdas
+   
+========================================================= */
+.collage {
+  
+height: 100vh;
+  
+min-height: 600px;
+  
+padding: 25px 20px 20px;
+  
+display: flex;
+  
+flex-direction: column;
+  
+gap: 15px;
+  
+overflow: hidden;
+  
+/* fondo: el campo de girasoles, oscurecido para que resalten las fotos */
+  
+background:
+    
+linear-gradient(rgba(31, 42, 31, .78), rgba(31, 42, 31, .88)),
+    
+url('../img/fondo-girasoles.jpg') center / cover;
+  
+border-top: 6px solid var(--amarillo);
+}
+/* título arriba, en su propia franja */
+.collage-texto { text-align: center; max-width: 900px; margin: 0 auto; }
+.collage-pre { color: var(--crema); letter-spacing: 3px; text-transform: uppercase; font-size: .8rem; margin-bottom: 6px; }
+.collage-texto h2 {
+  
+font-family: var(--letra-titulo);
+  
+font-size: clamp(1.5rem, 3.6vw, 2.6rem);
+  
+line-height: 1.2;
+  
+color: #fff4d1;
+  
+text-shadow: 0 0 25px rgba(224, 186, 80, .6);
+}
+.collage-sub { font-family: var(--letra-firma); font-size: clamp(1.5rem, 3.6vw, 2.2rem); color: var(--amarillo-claro); }
+/* zona de fotos: ocupa todo el espacio que queda */
+.collage-fotos {
+  
+--alto: 200px;               /* alto de cada foto (el JS lo ajusta solo) */
+  
+flex: 1;
+  
+min-height: 0;
+  
+display: flex;
+  
+flex-wrap: wrap;
+  
+justify-content: center;
+  
+align-content: space-evenly;
+  
+gap: 30px 18px;
+  
+overflow: hidden;
+  
+padding-top: 14px;
+}
+/* cada foto colgada */
+.colgada { position: relative; padding-top: 12px; }
+/* la cuerda (se une con la de la foto vecina) */
+.colgada::after {
+  
+content: '';
+  
+position: absolute;
+  
+top: 6px;
+  
+left: -14px;
+  
+right: -14px;
+  
+height: 2px;
+  
+background: #d9c6a0;
+  
+box-shadow: 0 1px 2px rgba(0, 0, 0, .4);
+}
+/* la pinza de madera */
+.colgada::before {
+  
+content: '';
+  
+position: absolute;
+  
+top: -2px;
+  
+left: 50%;
+  
+transform: translateX(-50%);
+  
+width: 12px;
+  
+height: 30px;
+  
+border-radius: 3px;
+  
+background: linear-gradient(90deg, #b8894f, #e0b77a, #b8894f);
+  
+box-shadow: 0 2px 3px rgba(0, 0, 0, .4);
+  
+z-index: 2;
+}
+/* la foto con marco blanco de polaroid, se ve COMPLETA */
+.colgada img,
+.colgada .celda-girasol {
+  
+display: block;
+  
+height: var(--alto);
+  
+width: auto;
+  
+max-width: 42vw;
+  
+background: #fff;
+  
+padding: 7px 7px 22px;
+  
+box-shadow: 0 8px 18px rgba(0, 0, 0, .45);
+  
+transform-origin: top center;
+  
+animation: columpio 5s ease-in-out infinite alternate;
+  
+transition: transform .3s;
+}
+.colgada .celda-girasol { width: calc(var(--alto) * .8); }
+/* cada foto inclinada distinto, como en la cuerda real */
+.colgada:nth-child(3n+1) img { --giro: -3deg; }
+.colgada:nth-child(3n+2) img { --giro: 2deg; animation-delay: -1.5s; }
+.colgada:nth-child(3n)   img { --giro: -1deg; animation-delay: -3s; }
+@keyframes columpio {
+  
+from { transform: rotate(var(--giro, 0deg)); }
+  
+to   { transform: rotate(calc(var(--giro, 0deg) * -1)); }
+}
+.colgada:hover img { animation-play-state: paused; transform: scale(1.06); z-index: 3; position: relative; }
+/* celda que aparece cuando falta una foto */
+.celda-girasol { display: grid; place-items: center; }
+.celda-girasol::after { content: '🌻'; font-size: calc(var(--alto) * .3); }
+/* celular: la sección crece hacia abajo, fotos de tamaño fijo */
+@media (max-width: 700px) {
+  
+.collage { height: auto; }
+  
+.collage-fotos { --alto: 34vw; overflow: visible; gap: 26px 12px; }
+}
+
+.collage {
+  height: 100vh;
+  min-height: 600px;
+  padding: 25px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(31, 42, 31, .78), rgba(31, 42, 31, .88)),
+    url('../img/fondo-girasoles.jpg') center / cover;
+  border-top: 6px solid var(--amarillo);
+}
+@media (max-width: 700px) {
+  .collage { height: auto; }
+}

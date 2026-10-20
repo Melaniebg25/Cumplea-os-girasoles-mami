@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <!-- Esta línea hace que la página se adapte al celular -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feliz cumpleaños, mami 🌻</title>
+
+  <!-- Tipografías de Google: Playfair Display (títulos) y Poppins (textos) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Poppins:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <!-- Nuestro archivo de estilos -->
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+  <!-- Botón flotante de música (solo suena si ella lo pulsa) -->
+  <button id="btnMusica" class="btn-musica" aria-label="Activar música">♪</button>
+  <!-- CAMBIA AQUÍ tu canción: pon un archivo llamado cancion.mp3 en la carpeta musica -->
+  <audio id="musica" src="musica/cancion.mp3" loop preload="none"></audio>
+
+  <!-- ========== 1. INICIO ========== -->
+  <section id="inicio" class="inicio">
+    <div class="inicio-fondo"></div>          <!-- foto del campo de girasoles -->
+    <div class="inicio-velo"></div>           <!-- capa oscura para que se lea el texto -->
+    <div id="lluvia" class="lluvia"></div>    <!-- aquí caen los girasoles (JS) -->
+
+    <div class="inicio-contenido">
+      <div id="chispas" class="chispas"></div> <!-- partículas doradas (JS) -->
+      <p class="inicio-pre">Para la mujer más especial del mundo</p>
+      <h1 class="titulo-principal">Feliz cumpleaños, <span>mami</span></h1>
+      <button id="btnRegalo" class="boton">Descubre tu regalo 🎁</button>
+    </div>
+
+    <div class="flecha-abajo">⌄</div>
+  </section>
+
+  <!-- ========== 2. MEMORIAS ========== -->
+  <section id="memorias" class="memorias">
+    <h2 class="titulo-seccion aparecer">Nuestros momentos más bonitos</h2>
+    <p class="subtitulo aparecer">Toca una foto para verla en grande</p>
+
+    <!--
+      CAMBIA AQUÍ tus fotos:
+      - src = la ruta de tu foto
+      - data-frase = la frase que aparece al abrirla
+      - <p> = el texto escrito a mano debajo de la polaroid
+    -->
+    <div class="galeria">
+      <figure class="polaroid aparecer" data-frase="Cada cumpleaños contigo es un recordatorio de lo especial que eres cada año.">
+        <img src="img/memorias/cumple.jpeg" alt="Recuerdo 1">
+        <p>Tu cumple pasado 🎂</p>
+      </figure>
+      <figure class="polaroid aparecer" data-frase="Contigo, cualquier reunión se convierte en hogar.">
+        <img src="img/memorias/Captura de pantalla 2026-10-20 003352.png" alt="Recuerdo 2">
+        <p>Reunión familiar</p>
+      </figure>
+      <figure class="polaroid aparecer" data-frase="Los mejores paseos son con la familia completa.">
+        <img src="img/memorias/nuestro-paseo.png" alt="Recuerdo 3">
+        <p>Nuestro paseo</p>
+      </figure>
+      <figure class="polaroid aparecer" data-frase="Tus abrazos curan todo, mami.">
+        <img src="img/memorias/ese-abrazo.jpeg" alt="Recuerdo 4">
+        <p>Ese abrazo</p>
+      </figure>
+      <figure class="polaroid aparecer" data-frase="Hasta los días normales son bonitos contigo mamita.">
+        <img src="img/memorias/un-dia.jpeg" alt="Recuerdo 5">
+        <p>Un día cualquiera</p>
+      </figure>
+      <figure class="polaroid aparecer" data-frase="Mientras seas feliz, todo es posible.">
+        <img src="img/memorias/gorxo.png" alt="Recuerdo 6">
+        <p>Tu Gordito</p>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Ventana para ver la foto en grande -->
+  <div id="visor" class="visor">
+    <button class="visor-cerrar" aria-label="Cerrar">✕</button>
+    <div class="visor-caja">
+      <img id="visorImg" src="" alt="">
+      <p id="visorFrase"></p>
+    </div>
+  </div>
+
+  <!-- ========== 3. SU EVOLUCIÓN ========== -->
+  <section id="historia" class="historia">
+    <h2 class="titulo-seccion aparecer">La historia de una mujer maravillosa</h2>
+    <p class="subtitulo aparecer">Desde que era pequeña hasta hoy</p>
+
+    <!-- CAMBIA AQUÍ: fotos solo de ella, la etapa/año y una descripción corta -->
+    <div class="linea-tiempo">
+      <div class="momento aparecer">
+        <div class="momento-punto">🌱</div>
+        <div class="momento-tarjeta">
+          <img src="img/historia/ninez.jpeg" alt="Su niñez">
+          <span class="momento-anio">Niñez · 19XX</span>
+          <p>Una niña curiosa y llena de sueños que ya iluminaba todo a su alrededor.</p>
+        </div>
+      </div>
+      <div class="momento aparecer">
+        <div class="momento-punto">🌿</div>
+        <div class="momento-tarjeta">
+          <img src="img/historia/adolescente.jpeg" alt="Su adolescencia">
+          <span class="momento-anio">Adolescencia · 19XX</span>
+          <p>Valiente, alegre, inteligente y con muchas ganas de salir adelante.</p>
+        </div>
+      </div>
+      <div class="momento aparecer">
+        <div class="momento-punto">🌼</div>
+        <div class="momento-tarjeta">
+          <img src="img/historia/juventud.jpeg" alt="Su juventud">
+          <span class="momento-anio">Juventud · 19XX</span>
+          <p>Una mujer fuerte que empezó a construir su propio camino y a experimentar la vida .</p>
+        </div>
+      </div>
+      <div class="momento aparecer">
+        <div class="momento-punto">🌻</div>
+        <div class="momento-tarjeta">
+          <img src="img/historia/mama.jpeg" alt="Cuando se convirtió en mamá">
+          <span class="momento-anio">Mamá · 20XX</span>
+          <p>El día en que su amor se multiplicó para siempre y dejó de estar sola.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Foto actual con dedicatoria -->
+    <div class="hoy aparecer">
+      <img src="img/historia/hoy.jpeg" alt="Mi mamá hoy">
+      <h3>Hoy</h3>
+      <p>Eres la prueba de que la belleza crece con los años. Gracias por todo lo que has sido y por todo lo que eres. Te admiro, mami.</p>
+    </div>
+  </section>
+
+  <!-- ========== 4. LA CARTA ========== -->
+  <section id="carta" class="carta-seccion">
+    <h2 class="titulo-seccion aparecer">Unas palabras para ti, mami</h2>
+
+    <div id="sobre" class="sobre aparecer">
+      <div class="sobre-atras"></div>
+      <div id="hoja" class="hoja">
+        <h3>Querida mami:</h3>
+        <div id="textoCartaMostrado" class="texto-carta"></div>
+        <div id="firma" class="firma">
+          <p>Con todo mi amor,</p>
+          <p class="firma-nombre">Melanie Bermeo</p>  <!-- CAMBIA AQUÍ tu firma -->
+          <div class="mini-girasol">🌻</div>
+        </div>
+      </div>
+      <div class="sobre-frente"></div>
+      <div class="sobre-solapa"></div>
+      <div class="sello">M</div>
+    </div>
+
+    <p id="cartaPregunta" class="carta-pregunta aparecer">Tengo algo que decirte, mami...</p>
+    <button id="btnCarta" class="boton aparecer">✉ Abrir mi carta 💌</button>
+    <button id="btnSaltar" class="boton-pequeno">Mostrar todo el texto</button>
+
+    <!--
+      CAMBIA AQUÍ el texto de tu carta.
+      Cada <p> es un párrafo. Puedes escribir todos los que quieras.
+      (Este bloque está oculto: el JavaScript lo copia letra por letra.)
+    -->
+    <div id="textoCarta" hidden>
+      <p>Hoy es tu día y quiero aprovecharlo para decirte lo que a veces no digo en voz alta.</p>
+      <p>Gracias por cada consejo, por cada vez que me esperaste despierta y por cada abrazo que llegó justo cuando más lo necesitaba.</p>
+      <p>Por cada Amanecida para dejarme agarrando bus de madrugada, cada logro que hago en silencio llevan tu sacrificio y amor.</p>
+      <p>Eres la persona más fuerte, amorosa y con personalidad y buen estilo que conozco. Todo lo bueno que hay en mí, lo aprendí de ti.</p>
+      <p>Sé que no siempre fue fácil, desde pequeña he visto todo el esfuerzo que haz hecho por tus hijos y a pesar de los momentos dificiles nunca dejaste de sonreír por nosotros. Por eso hoy quiero que tú seas la que reciba todo el cariño.</p>
+      <p>Que este nuevo año te traiga salud, paz y muchísimos motivos para ser feliz. Te mereces el mundo entero.</p>
+      <p>Te quiero muchísimo, hoy y siempre.</p>
+    </div>
+  </section>
+
+  <!-- ========== 5. EL GIRASOL QUE CRECE ========== -->
+  <section id="final" class="final">
+    <div id="frases" class="frases"></div>  <!-- frases que caen (JS) -->
+
+    <h2 class="titulo-seccion claro">Para ti, tanto fisica como virtual te obsequio esta flor</h2>
+
+    <!-- El girasol está dibujado con SVG (dibujo hecho con código) -->
+    <svg id="girasolSVG" class="girasol" viewBox="0 0 300 420" aria-hidden="true">
+      <ellipse class="tierra" cx="150" cy="400" rx="110" ry="16"/>
+      <ellipse class="semilla" cx="150" cy="392" rx="7" ry="10"/>
+      <path class="tallo" d="M150 395 C 140 330, 162 260, 150 160"/>
+      <path class="hojita hojita-izq" d="M147 320 C 110 300, 90 310, 78 330 C 105 340, 130 335, 147 320 Z"/>
+      <path class="hojita hojita-der" d="M152 260 C 190 240, 210 250, 222 270 C 195 280, 170 275, 152 260 Z"/>
+      <g id="petalos" class="petalos"></g>  <!-- los pétalos los crea JS -->
+      <circle class="centro" cx="150" cy="140" r="34"/>
+      <circle class="centro-brillo" cx="150" cy="140" r="22"/>
+    </svg>
+
+    <p id="mensajeFinal" class="mensaje-final">Feliz cumpleaños, mami.<br>Te amo infinitamente 💛</p>
+    <button id="btnRepetir" class="boton-pequeno claro">Ver crecer otra vez 🌱</button>
+  </section>
+
+<section id="collage" class="collage">
+    
+<div class="collage-texto">
+      
+<p class="collage-pre">🌻 Gracias por tanto 🌻</p>
+      
+<h2>Cada recuerdo es una experiencia más que nos enseñó a vivir</h2>
+      
+<p class="collage-sub">y en todos estás tú, mami.</p>
+    
+</div>
+    
+<!-- CAMBIA AQUÍ: tus fotos colgadas (puedes agregar más copiando una línea) -->
+    
+<div id="collageFotos" class="collage-fotos">
+      
+<figure class="colgada"><img src="img/collage/c1.png" alt=""></figure>
+      
+<figure class="colgada"><img src="img/collage/C2.png" alt=""></figure>
+      
+<figure class="colgada"><img src="img/collage/C3.png" alt=""></figure>
+      
+<figure class="colgada"><img src="img/collage/C4.png" alt=""></figure>
+      
+<figure class="colgada"><img src="img/collage/C5.png" alt=""></figure>
+      
+<figure class="colgada"><img src="img/collage/C6.png" alt=""></figure>
+      
+<figure class="colgada"><img src="img/collage/C7.png" alt=""></figure>
+      
+<figure class="colgada"><img src="img/collage/C8.png" alt=""></figure>
+      
+<figure class="colgada"><img src="img/collage/C9.jpeg" alt=""></figure>
+      
+<figure class="colgada"><img src="img/collage/C10.jpeg" alt=""></figure>
+      
+<figure class="colgada"><img src="img/collage/c11.jpeg" alt=""></figure>
+      
+<figure class="colgada"><img src="img/collage/c12.jpeg" alt=""></figure>
+    
+</div>
+  
+</section>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
