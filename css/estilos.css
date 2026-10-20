@@ -187,15 +187,15 @@ section { position: relative; padding: 90px 20px; }
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 0 18px rgba(224,186,80,.6));
+  -webkit-text-fill-color: transparent;
   opacity: 0;
   animation: entradaTitulo 2s .8s forwards, brillo 4s 2.8s linear infinite;
 }
-.titulo-principal span { font-style: italic; display: inline-block; }
+.titulo-principal span { font-style: italic; }
 
 @keyframes entradaTitulo {
-  from { opacity: 0; letter-spacing: 12px; transform: scale(.9); filter: blur(10px); }
-  to   { opacity: 1; letter-spacing: 0; transform: scale(1); filter: drop-shadow(0 0 18px rgba(224,186,80,.6)); }
+  from { opacity: 0; letter-spacing: 12px; transform: scale(.9); }
+  to   { opacity: 1; letter-spacing: 0; transform: scale(1); }
 }
 @keyframes brillo { from { background-position: 100% 0; } to { background-position: -150% 0; } }
 @keyframes subir { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
