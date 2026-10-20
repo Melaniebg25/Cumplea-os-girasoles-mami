@@ -844,3 +844,5 @@ to   { transform: rotate(calc(var(--giro, 0deg) * -1)); }
 @media (max-width: 700px) {
   .collage { height: auto; }
 }
+
+.colgada img { cursor: zoom-in; }

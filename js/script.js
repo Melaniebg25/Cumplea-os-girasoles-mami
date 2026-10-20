@@ -336,3 +336,12 @@ collageFotos.style.setProperty('--alto', min + 'px');
 }
 window.addEventListener('load', ajustarCollage);
 window.addEventListener('resize', ajustarCollage);
+
+// Collage: al tocar una foto se abre en grande
+collageFotos.addEventListener('click', (e) => {
+  const foto = e.target.closest('img');
+  if (!foto) return;
+  visorImg.src = foto.src;
+  visorFrase.textContent = 'Cada recuerdo contigo es un tesoro 🌻';
+  visor.classList.add('abierto');
+});
