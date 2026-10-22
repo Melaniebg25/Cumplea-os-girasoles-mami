@@ -846,3 +846,44 @@ to   { transform: rotate(calc(var(--giro, 0deg) * -1)); }
 }
 
 .colgada img { cursor: zoom-in; }
+
+.pie {
+  background: #141b14;
+  border-top: 3px solid var(--amarillo);
+  text-align: center;
+  padding: 40px 20px 30px;
+  color: var(--crema);
+}
+.pie-girasol { font-size: 2.6rem; display: inline-block; animation: girar 8s linear infinite; }
+.pie-frase { font-family: var(--letra-titulo); font-style: italic; font-size: 1.1rem; margin-top: 10px; }
+.pie-firma { font-family: var(--letra-firma); font-size: 2.2rem; color: var(--amarillo-claro); }
+.pie-volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0 16px;
+  padding: 12px 28px;
+  border-radius: 50px;
+  background: linear-gradient(135deg, var(--amarillo-claro), var(--amarillo));
+  color: var(--verde-bosque);
+  font-weight: 500;
+  text-decoration: none;
+  box-shadow: 0 6px 20px rgba(224, 186, 80, .45);
+  animation: brilloBoton 2.5s ease-in-out infinite;
+  transition: transform .3s;
+}
+.pie-volver:hover { transform: translateY(-4px) scale(1.05); }
+.pie-volver .flecha {
+  display: grid;
+  place-items: center;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--verde-bosque);
+  color: var(--amarillo-claro);
+  font-size: .9rem;
+  transition: transform .3s;
+}
+.pie-volver:hover .flecha { transform: translateY(-3px); }
+@keyframes brilloBoton {
+  50% { box-shadow: 0 6px 30px rgba(255, 226, 138, .85); }
+}
